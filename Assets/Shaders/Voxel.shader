@@ -6,8 +6,9 @@ Shader "Voxel/Viz"
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
-        _VizSize ("Visualization Size", Vector) = (1, 1, 1, 1) // (R, G, B, A)
-        _MinMarchingDistance("Min Marching Distance", Float) = 0.1
+        _VizSize ("Voxel Viz Size", Vector) = (20, 20, 20, 1) // (R, G, B, A)
+        _VoxelSize ("Voxel Size", Vector) = (1, 1, 1, 1) // (R, G, B, A)
+        _MinMarchingDistance("Min Marching Distance", Float) = 0.2
         _MainTex("Voxel Data Image", 2D) = "white"
     }
     Subshader
@@ -27,8 +28,9 @@ Shader "Voxel/Viz"
             #include "Lighting.cginc"
             #include "sdf.cginc"
 
-            #define _Steps 10
+            #define _Steps 40
 
+            float3 _VoxelSize;
             float3 _VizSize;
             float _MinMarchingDistance;
 
@@ -75,17 +77,43 @@ Shader "Voxel/Viz"
                 return simpleLambert(n);
             }
 
-            fixed4 raymarch (float3 position, float3 direction)
+            float4 raymarch (float3 position, float3 direction)
             {
+                float2 lastuv = float2(-1,-1);
+
                 for (int i = 0; i < _Steps; i++)
                 {
-                    float distance = map(position);
-                    if (distance < _MinMarchingDistance)
-                        return renderSurface(position);
+                    float3 voxelIndex = floor(position/_VoxelSize);
 
-                    position += distance * direction;
+                    if (voxelIndex.x < 0 ||  voxelIndex.y < 0 || voxelIndex.z < 0 || 
+                        voxelIndex.x >= _VizSize.x || voxelIndex.y >= _VizSize.y || voxelIndex.z >= _VizSize.z) {
+                        position += _MinMarchingDistance * direction;
+                        continue;
+                    }
+                        
+                    // else return float4(1,0,0,1);
+
+                    float2 uv = float2(voxelIndex.x + voxelIndex.z * _VizSize.x, voxelIndex.y);
+                    uv = uv / float2(_VizSize.x * _VizSize.z - 1, _VizSize.y - 1);
+
+                    // uv.y = 1 - uv.y;
+
+                    if (length(uv - lastuv) > 0.01)
+                    {
+                        float4 voxelData = tex2D(_MainTex, uv);
+                        if (voxelData.a > 0.9)
+                            return voxelData;    
+                    }
+
+                    lastuv = uv;
+
+                    // float distance = map(position);
+                    // if (distance < _MinMarchingDistance)
+                    //     return renderSurface(position);
+
+                    position += _MinMarchingDistance * direction;
                 }
-                return fixed4(0,0,0,0);
+                return float4(0,0,0,0);
             }
 
             struct v2f {

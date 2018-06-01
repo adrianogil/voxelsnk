@@ -55,7 +55,7 @@ public class ImageSetter : MonoBehaviour
     public Color GetPixelColor(int x, int y)
     {
         if (imageTexture2D != null)
-         return imageTexture2D.GetPixel(x, Mathf.Max(0, imageSizeY - y - 1));
+         return imageTexture2D.GetPixel(x, y);
 
         return Color.black;
     }
@@ -122,7 +122,7 @@ public class ImageSetterEditor : Editor {
                                            lastColor,
                                            false, true, false, null, GUILayout.Width(gridItemWidth));
 
-                if (newColor != newColor)
+                if (lastColor != newColor)
                 {
                     editorObj.SetPixelColor(x + editorObj.currentGridPosX,
                                         y + editorObj.currentGridPosY,
