@@ -26,6 +26,11 @@ public class ImageSetter : MonoBehaviour
     [HideInInspector]
     public int currentGridPosY;
 
+    void Awake()
+    {
+        UpdateInternalTexture();
+    }
+    
     public void UpdateInternalTexture()
     {
         RenderTexture.active = image;
@@ -42,14 +47,18 @@ public class ImageSetter : MonoBehaviour
     ///  - Set a Color in a specific pixel
     ///  - For debug purposes
     /// </summary>
-    public void SetPixelColor(int x, int y, Color color)
+    public void SetPixelColor(int x, int y, Color color, bool update = true)
     {
         Debug.Log("Set Pixel Color in pos (" + x + "," + y + ") with color " + color);
 
         imageTexture2D.SetPixel(x, y, color);
-        imageTexture2D.Apply();
 
-        Graphics.Blit(imageTexture2D, image);
+        if (update)
+        {
+            imageTexture2D.Apply();
+
+            Graphics.Blit(imageTexture2D, image);    
+        }
     }
 
     public Color GetPixelColor(int x, int y)

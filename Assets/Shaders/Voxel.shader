@@ -28,7 +28,7 @@ Shader "Voxel/Viz"
             #include "Lighting.cginc"
             #include "sdf.cginc"
 
-            #define _Steps 40
+            #define _Steps 60
 
             float3 _VoxelSize;
             float3 _VizSize;
