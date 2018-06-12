@@ -5,8 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(ImageSetter))]
 public class VoxelPlayer : MonoBehaviour
 {
-
-	[Header("World")] 
+	[Header("World")]
 	public int worldSizeX;
 
 	public int worldSizeY;
@@ -14,10 +13,10 @@ public class VoxelPlayer : MonoBehaviour
 
 	public int initialPlayerPositionX, initialPlayerPositionY, initialPlayerPositionZ;
 
-	[Header("Game Elements")] 
+	[Header("Game Elements")]
 	public Color backgroundColor;
 	public Color playerColor;
-	
+
 	private ImageSetter mImageSetter;
 
 	private int mCurrentX, mCurrentY, mCurrentZ;
@@ -41,7 +40,7 @@ public class VoxelPlayer : MonoBehaviour
 				}
 			}
 		}
-		
+
 		mImageSetter.SetPixelColor(mCurrentX + mCurrentZ*worldSizeX, mCurrentY, playerColor);
 	}
 
@@ -53,7 +52,7 @@ public class VoxelPlayer : MonoBehaviour
 		mLastX = mCurrentX;
 		mLastY = mCurrentY;
 		mLastZ = mCurrentZ;
-		
+
 		if (Input.GetKeyUp(KeyCode.W))
 		{
 			mCurrentZ = (mCurrentZ + 1) % worldSizeZ;
@@ -84,7 +83,7 @@ public class VoxelPlayer : MonoBehaviour
 		    mLastZ != mCurrentZ)
 		{
 			mImageSetter.SetPixelColor(mLastX + mLastZ*worldSizeX, mLastY, backgroundColor);
-			mImageSetter.SetPixelColor(mCurrentX + mCurrentZ*worldSizeX, mCurrentY, playerColor);	
+			mImageSetter.SetPixelColor(mCurrentX + mCurrentZ*worldSizeX, mCurrentY, playerColor);
 		}
 	}
 }

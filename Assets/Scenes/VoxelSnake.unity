@@ -368,8 +368,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1946346045}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 1.5, z: 1.5}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -385,8 +385,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c06add7e0e5394a9c84f8b5b4651c6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageSizeX: 36
-  imageSizeY: 6
+  imageSizeX: 100
+  imageSizeY: 10
   image: {fileID: 8400000, guid: 2677638d5f74f41b8be5204a4d334a0a, type: 2}
   pixelPosX: 0
   pixelPosY: 0
@@ -404,9 +404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36cacfc0708e34add9ebcb0d87cc0081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldSizeX: 6
-  worldSizeY: 6
-  worldSizeZ: 6
+  worldSizeX: 10
+  worldSizeY: 10
+  worldSizeZ: 10
   initialPlayerPositionX: 0
   initialPlayerPositionY: 0
   initialPlayerPositionZ: 0
