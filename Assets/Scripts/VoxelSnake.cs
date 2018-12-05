@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 using System;
+using System.Collections.Generic;
 
 public enum VoxelSnakeDirection
 {
@@ -44,6 +45,8 @@ public class VoxelSnake : MonoBehaviour
 
     public VoxelSnakeDirection currentSnakeDirection = VoxelSnakeDirection.Forward;
 
+    public List<Int3> snakeBody;
+
     void ResetVoxelGridToBackgroundColor()
     {
         for (int x = 0; x < worldSizeX; x++)
@@ -76,6 +79,9 @@ public class VoxelSnake : MonoBehaviour
         mCurrent = new Int3(mCurrentX, mCurrentY, mCurrentZ);
         mWorldSize = new Int3(worldSizeX, worldSizeY, worldSizeZ);
 
+        snakeBody = new List<Int3>();
+        snakeBody.Add(mCurrent);
+
         PlaceFoodAtRandom();
     }
 
@@ -84,6 +90,12 @@ public class VoxelSnake : MonoBehaviour
     {
         if (Time.time - lastMovementUpdate > movementTime)
         {
+            if (mCurrent == mLastFoodPosition)
+            {
+                PlaceFoodAtRandom();
+                snakeBody.Add(snakeBody[snakeBody.Count-1]);
+            }
+
             UpdateAI();
             UpdateMovement();
             lastMovementUpdate = Time.time;
@@ -125,9 +137,25 @@ public class VoxelSnake : MonoBehaviour
     {
         mDelta = GetDeltaByDirection(currentSnakeDirection);
 
-        SetVoxelColor(mCurrent, backgroundColor);
+        SetVoxelColor(snakeBody[snakeBody.Count-1], backgroundColor);
         mCurrent = (mCurrent + mDelta) % mWorldSize;
-        SetVoxelColor(mCurrent, playerColor);
+
+        Int3 tmp1 = snakeBody[0];
+        Int3 tmp2 = snakeBody[0];
+
+        for (int i = 0; i < snakeBody.Count; i++)
+        {
+            if (i == 0)
+            {
+                snakeBody[i] = mCurrent;
+            }
+            else {
+                tmp1 = snakeBody[i];
+                snakeBody[i] = tmp2;
+                tmp2 = tmp1;
+            }
+            SetVoxelColor(snakeBody[i], playerColor);
+        }
 
         // mImageSetter.SetPixelColor(mLastX + mLastZ*worldSizeX, mLastY, backgroundColor);
         // mImageSetter.SetPixelColor(mCurrentX + mCurrentZ*worldSizeX, mCurrentY, playerColor);
@@ -137,11 +165,6 @@ public class VoxelSnake : MonoBehaviour
 
     void UpdateAI()
     {
-        if (mCurrent == mLastFoodPosition)
-        {
-            PlaceFoodAtRandom();
-        }
-
         float bestUtilityValue = int.MaxValue;
         VoxelSnakeDirection bestDirection = VoxelSnakeDirection.Up;
 
