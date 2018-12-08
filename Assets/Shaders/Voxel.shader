@@ -1,6 +1,6 @@
 
-// Interesting Material: 
-// - http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm 
+// Interesting Material:
+// - http://www.iquilezles.org/www/articles/distfunctions/distfunctions.htm
 Shader "Voxel/Viz"
 {
     Properties
@@ -28,7 +28,7 @@ Shader "Voxel/Viz"
             #include "Lighting.cginc"
             #include "sdf.cginc"
 
-            #define _Steps 60
+            #define _Steps 80
 
             float3 _VoxelSize;
             float3 _VizSize;
@@ -85,12 +85,12 @@ Shader "Voxel/Viz"
                 {
                     float3 voxelIndex = floor(position/_VoxelSize);
 
-                    if (voxelIndex.x < 0 ||  voxelIndex.y < 0 || voxelIndex.z < 0 || 
+                    if (voxelIndex.x < 0 ||  voxelIndex.y < 0 || voxelIndex.z < 0 ||
                         voxelIndex.x >= _VizSize.x || voxelIndex.y >= _VizSize.y || voxelIndex.z >= _VizSize.z) {
                         position += _MinMarchingDistance * direction;
                         continue;
                     }
-                        
+
                     // else return float4(1,0,0,1);
 
                     float2 uv = float2(voxelIndex.x + voxelIndex.z * _VizSize.x, voxelIndex.y);
@@ -100,9 +100,15 @@ Shader "Voxel/Viz"
 
                     if (length(uv - lastuv) > 0.01)
                     {
-                        float4 voxelData = tex2D(_MainTex, uv);
-                        if (voxelData.a > 0.9)
-                            return voxelData;    
+                        float4 voxelColor = tex2D(_MainTex, uv);
+                        if (voxelColor.a > 0.9) {
+                            float3 voxelRelativePos = abs(position - voxelIndex*_VoxelSize - 0.5*_VoxelSize);
+                            float darkFactor = 2*length(voxelRelativePos);
+                            // float darkFactor = 2*max(voxelRelativePos.x, max(voxelRelativePos.y, voxelRelativePos.z));
+                            // float darkFactor = 2*max(0, voxelRelativePos.x+voxelRelativePos.y+voxelRelativePos.z-1);
+                            return lerp(voxelColor, float4(0,0,0,1), darkFactor);
+                            // return voxelColor;
+                        }
                     }
 
                     lastuv = uv;

@@ -47,7 +47,9 @@ public class VoxelSnake : MonoBehaviour
 
     public List<Int3> snakeBody;
 
-    void ResetVoxelGridToBackgroundColor()
+    public bool shouldResetGridAtStart = false;
+
+    public void ResetVoxelGridToBackgroundColor()
     {
         for (int x = 0; x < worldSizeX; x++)
         {
@@ -69,14 +71,15 @@ public class VoxelSnake : MonoBehaviour
         mCurrent.y = initialPlayerPositionY;
         mCurrent.z = initialPlayerPositionZ;
 
-        ResetVoxelGridToBackgroundColor();
+        if (shouldResetGridAtStart)
+            ResetVoxelGridToBackgroundColor();
 
         // Set initial player position
         mImageSetter.SetPixelColor(mCurrent.x + mCurrent.z*worldSizeX, mCurrent.y, playerColor);
 
         mLastDirection = new Int3(0, 0, 1);
 
-        mCurrent = new Int3(mCurrentX, mCurrentY, mCurrentZ);
+        // mCurrent = new Int3(mCurrentX, mCurrentY, mCurrentZ);
         mWorldSize = new Int3(worldSizeX, worldSizeY, worldSizeZ);
 
         snakeBody = new List<Int3>();
@@ -168,13 +171,25 @@ public class VoxelSnake : MonoBehaviour
         float bestUtilityValue = int.MaxValue;
         VoxelSnakeDirection bestDirection = VoxelSnakeDirection.Up;
 
-        float utilityValue = 0;
+        int utilityValue = 0;
         Int3 delta;
+
+        Vector4 vBackgroundColor = backgroundColor;
+        Vector4 vFoodColor = foodColor;
 
         foreach(VoxelSnakeDirection dir in Enum.GetValues(typeof(VoxelSnakeDirection)))
         {
             delta = GetDeltaByDirection(dir);
-            utilityValue = mLastFoodPosition.ManhattanDistance((mCurrent+delta)%mWorldSize);
+
+            Int3 nextPos = (mCurrent+delta)%mWorldSize;
+            utilityValue = mLastFoodPosition.ManhattanDistance(nextPos);
+            Vector4 vNextPosVoxelColor = GetVoxelColor(nextPos);
+
+            if ((vBackgroundColor - vNextPosVoxelColor).sqrMagnitude > 0.001f &&
+                (vFoodColor - vNextPosVoxelColor).sqrMagnitude > 0.001f)
+            {
+                utilityValue = int.MaxValue;
+            }
 
             if (utilityValue < bestUtilityValue)
             {
@@ -195,14 +210,25 @@ public class VoxelSnake : MonoBehaviour
             Debug.Log("GilLog - VoxelSnake::PlaceFoodAtRandom " + GetVoxelColor(mLastFoodPosition));
             Vector4 vColor = GetVoxelColor(mLastFoodPosition);
             Vector4 fColor = foodColor;
-            if ((vColor - fColor).sqrMagnitude < 0.001)
+            if ((vColor - fColor).sqrMagnitude < 0.001F)
             {
                 Debug.Log("GilLog - VoxelSnake::PlaceFoodAtRandom - Lets reset food color in last pos");
                 SetVoxelColor(mLastFoodPosition, backgroundColor);
             }
         }
 
-        mLastFoodPosition = Int3.random(Int3.zero(), mWorldSize);
+        int max_steps = 100;
+        int current_steps = 0;
+
+        Vector4 vBackgroundColor = backgroundColor;
+        Vector4 vCurrentPosColor;
+        do
+        {
+            mLastFoodPosition = Int3.random(Int3.zero(), mWorldSize);
+            vCurrentPosColor = GetVoxelColor(mLastFoodPosition);
+            current_steps++;
+        }
+        while((vBackgroundColor - vCurrentPosColor).sqrMagnitude > 0.001 && current_steps < max_steps);
         SetVoxelColor(mLastFoodPosition, foodColor);
     }
 
@@ -233,6 +259,11 @@ public class VoxelSnakeEditor : Editor {
         if (GUILayout.Button("Place Food At Random"))
         {
             editorObj.PlaceFoodAtRandom();
+        }
+
+        if (GUILayout.Button("Reset Grid"))
+        {
+            editorObj.ResetVoxelGridToBackgroundColor();
         }
     }
 
