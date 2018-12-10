@@ -79,6 +79,7 @@ public class VoxelSnake : MonoBehaviour
 
         mLastDirection = new Int3(0, 0, 1);
 
+        mCurrent = Int3.random(Int3.zero(), mWorldSize);
         // mCurrent = new Int3(mCurrentX, mCurrentY, mCurrentZ);
         mWorldSize = new Int3(worldSizeX, worldSizeY, worldSizeZ);
 

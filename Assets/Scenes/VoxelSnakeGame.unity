@@ -267,6 +267,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1571165862}
+  - component: {fileID: 1571165863}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -280,14 +281,26 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1571165861}
-  m_LocalRotation: {x: -0, y: -0.44518483, z: -0, w: 0.89543873}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.5, y: 1.5, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 738308097}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: -52.870003, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1571165863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1571165861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b78753386ee41daab68a764d37d4f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity: {x: 20, y: 2, z: 40}
 --- !u!1 &1946346045
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +316,12 @@ GameObject:
   - component: {fileID: 1946346051}
   - component: {fileID: 1946346052}
   - component: {fileID: 1946346053}
+  - component: {fileID: 1946346054}
+  - component: {fileID: 1946346055}
+  - component: {fileID: 1946346056}
+  - component: {fileID: 1946346057}
+  - component: {fileID: 1946346058}
+  - component: {fileID: 1946346059}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -461,6 +480,144 @@ MonoBehaviour:
   movementTime: 0.5
   backgroundColor: {r: 0, g: 0, b: 0, a: 0}
   playerColor: {r: 0.872, g: 0.472, b: 0, a: 1}
+  foodColor: {r: 0.47058824, g: 0, b: 0.647, a: 1}
+  currentSnakeDirection: 4
+  shouldResetGridAtStart: 0
+--- !u!114 &1946346054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1946346045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4437f86e7e3f84a85bbded7d7fbe9823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSizeX: 10
+  worldSizeY: 10
+  worldSizeZ: 10
+  initialPlayerPositionX: 7
+  initialPlayerPositionY: 8
+  initialPlayerPositionZ: 0
+  movementTime: 0.5
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  playerColor: {r: 0, g: 0.616, b: 0.72766906, a: 1}
+  foodColor: {r: 0.47058824, g: 0, b: 0.647, a: 1}
+  currentSnakeDirection: 4
+  shouldResetGridAtStart: 0
+--- !u!114 &1946346055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1946346045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4437f86e7e3f84a85bbded7d7fbe9823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSizeX: 10
+  worldSizeY: 10
+  worldSizeZ: 10
+  initialPlayerPositionX: 7
+  initialPlayerPositionY: 8
+  initialPlayerPositionZ: 0
+  movementTime: 0.5
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  playerColor: {r: 0.966, g: 0.2179931, b: 0.8068251, a: 1}
+  foodColor: {r: 0.47058824, g: 0, b: 0.647, a: 1}
+  currentSnakeDirection: 4
+  shouldResetGridAtStart: 0
+--- !u!114 &1946346056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1946346045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4437f86e7e3f84a85bbded7d7fbe9823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSizeX: 10
+  worldSizeY: 10
+  worldSizeZ: 10
+  initialPlayerPositionX: 7
+  initialPlayerPositionY: 8
+  initialPlayerPositionZ: 0
+  movementTime: 0.5
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  playerColor: {r: 0.828, g: 0.909, b: 0.178, a: 1}
+  foodColor: {r: 0.47058824, g: 0, b: 0.647, a: 1}
+  currentSnakeDirection: 4
+  shouldResetGridAtStart: 0
+--- !u!114 &1946346057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1946346045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4437f86e7e3f84a85bbded7d7fbe9823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSizeX: 10
+  worldSizeY: 10
+  worldSizeZ: 10
+  initialPlayerPositionX: 7
+  initialPlayerPositionY: 8
+  initialPlayerPositionZ: 0
+  movementTime: 0.5
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  playerColor: {r: 0.796, g: 0.847, b: 0.909, a: 1}
+  foodColor: {r: 0.47058824, g: 0, b: 0.647, a: 1}
+  currentSnakeDirection: 4
+  shouldResetGridAtStart: 0
+--- !u!114 &1946346058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1946346045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4437f86e7e3f84a85bbded7d7fbe9823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSizeX: 10
+  worldSizeY: 10
+  worldSizeZ: 10
+  initialPlayerPositionX: 7
+  initialPlayerPositionY: 8
+  initialPlayerPositionZ: 0
+  movementTime: 0.5
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  playerColor: {r: 0.06747407, g: 0.38215417, b: 0.7647059, a: 1}
+  foodColor: {r: 0.47058824, g: 0, b: 0.647, a: 1}
+  currentSnakeDirection: 4
+  shouldResetGridAtStart: 0
+--- !u!114 &1946346059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1946346045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4437f86e7e3f84a85bbded7d7fbe9823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSizeX: 10
+  worldSizeY: 10
+  worldSizeZ: 10
+  initialPlayerPositionX: 7
+  initialPlayerPositionY: 8
+  initialPlayerPositionZ: 0
+  movementTime: 0.5
+  backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+  playerColor: {r: 0.97794116, g: 0.14163287, b: 0, a: 1}
   foodColor: {r: 0.47058824, g: 0, b: 0.647, a: 1}
   currentSnakeDirection: 4
   shouldResetGridAtStart: 0
