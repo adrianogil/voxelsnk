@@ -127,9 +127,8 @@ public class ImageSetterEditor : Editor {
                                                                    y + editorObj.currentGridPosY);
 
                 Color newColor = EditorGUILayout.ColorField(GUIContent.none,
-                                           // colorGrid.GetColor(x, y),
-                                           lastColor,
-                                           false, true, false, null, GUILayout.Width(gridItemWidth));
+                                                            lastColor,
+                                                            GUILayout.Width(gridItemWidth));
 
                 if (lastColor != newColor)
                 {
