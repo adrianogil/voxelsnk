@@ -38,45 +38,6 @@ Shader "Voxel/Viz"
 
             uniform float4 _Color;
 
-            fixed4 simpleLambert (fixed3 normal) {
-                fixed3 lightDir = _WorldSpaceLightPos0.xyz; // Light direction
-                fixed3 lightCol = _LightColor0.rgb;     // Light color
-
-                fixed NdotL = max(dot(normal, lightDir),0);
-                fixed4 c;
-                c.rgb = tex2D(_MainTex, float2(0.0, 0.0)) * _Color * lightCol * NdotL;
-                c.a = 1;
-                return c;
-            }
-
-            float map (float3 p)
-            {
-                float3 q = op_repeat(p, float3(5,5,5));
-                // float d = sdf_boxcheap(q, float3(0,0,0), float3(1,1,1));
-                float d = sd_torus(q, float2(0.5,0.5));
-
-                return d;
-            }
-
-            float3 normal (float3 p)
-            {
-                const float eps = 0.01;
-
-                return normalize
-                (   float3
-                    (   map(p + float3(eps, 0, 0)   ) - map(p - float3(eps, 0, 0)),
-                        map(p + float3(0, eps, 0)   ) - map(p - float3(0, eps, 0)),
-                        map(p + float3(0, 0, eps)   ) - map(p - float3(0, 0, eps))
-                    )
-                );
-            }
-
-            fixed4 renderSurface(float3 p)
-            {
-                float3 n = normal(p);
-                return simpleLambert(n);
-            }
-
             float4 raymarch (float3 position, float3 direction)
             {
                 float2 lastuv = float2(-1,-1);
