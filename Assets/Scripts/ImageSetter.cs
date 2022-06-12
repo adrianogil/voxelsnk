@@ -49,7 +49,7 @@ public class ImageSetter : MonoBehaviour
     /// </summary>
     public void SetPixelColor(int x, int y, Color color, bool update = true)
     {
-        Debug.Log("Set Pixel Color in pos (" + x + "," + y + ") with color " + color);
+        // Debug.Log("Set Pixel Color in pos (" + x + "," + y + ") with color " + color);
 
         imageTexture2D.SetPixel(x, y, color);
 

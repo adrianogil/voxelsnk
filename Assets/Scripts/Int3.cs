@@ -43,4 +43,25 @@ public struct Int3
 
         return int3Value;
     }
+
+    public override bool Equals(object o)
+    {
+       if(o == null)
+           return false;
+
+       var b = (Int3)o;
+
+       return b != null && x == b.x && y == b.y && z == b.z;
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked {
+            int hash = (int) 2166136261;
+            hash = (hash * 16777619) ^ x.GetHashCode();
+            hash = (hash * 16777619) ^ y.GetHashCode();
+            hash = (hash * 16777619) ^ z.GetHashCode();
+            return hash;
+        }
+    }
 }
